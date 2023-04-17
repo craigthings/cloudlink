@@ -2,11 +2,14 @@ import React from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Functions from './Functions'
 
 class App extends React.Component<any,{count: number}>{
   constructor(props: any) {
     super(props)
     this.state = { count: 0 }
+    // @ts-ignore
+    window['Funcs'] = Functions;
   }
 
   render() {

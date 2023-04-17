@@ -22,6 +22,7 @@ export default class CloudFunctionsInteropFrontend {
       });
 
       if (!response.ok) {
+        console.log('response', response);
         throw new Error(`Failed to call cloud function "${key}"`);
       }
 
@@ -33,13 +34,16 @@ export default class CloudFunctionsInteropFrontend {
   static proxy<T extends object>(functionsInstance: T): ProxiedFunctions<T> {
     const proxyFunctions = {} as ProxiedFunctions<T>;
 
-    for (const key in functionsInstance) {
-      if (
-        Object.prototype.hasOwnProperty.call(functionsInstance, key) &&
-        typeof functionsInstance[key] === 'function'
-      ) {
-        proxyFunctions[key as keyof T] = this.createProxyFunction<T, keyof T & string>(key);
-      }
+    const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(functionsInstance))
+    .filter((key) => key !== 'constructor')
+    .filter((key) => {
+      const typedKey = key as keyof T;
+      return typeof functionsInstance[typedKey] === 'function';
+    });
+
+    for (const key of methods) {
+      const typedKey = key as keyof T & string;
+      proxyFunctions[typedKey] = this.createProxyFunction<T, keyof T & string>(typedKey);
     }
 
     return proxyFunctions;

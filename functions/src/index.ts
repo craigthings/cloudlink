@@ -1,7 +1,15 @@
 import AllFunctions from "./AllFunctions";
-import FunctionsProxy from './FunctionsProxyBackend';
+import * as FunctionsProxy from './FunctionsProxyBackend';
+import * as admin from 'firebase-admin';
+import serviceAccount from './ServiceAccount';
 
-let WrappedFunctions = FunctionsProxy.proxy(AllFunctions);
+admin.initializeApp({
+    credential: admin.credential.cert(Object(serviceAccount))
+});
 
-export const getUserProfileData = WrappedFunctions.getUserProfileData;
-export const updateUserProfileData = WrappedFunctions.updateUserProfileData;
+export const db = admin.firestore();
+
+const Functions = new AllFunctions(db);
+
+export const getUserProfileData = FunctionsProxy.createProxyFunction(Functions.getUserProfileData);
+export const updateUserProfileData = FunctionsProxy.createProxyFunction(Functions.updateUserProfileData);
