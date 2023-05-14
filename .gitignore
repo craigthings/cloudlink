@@ -66,3 +66,5 @@ node_modules/
 .env
 
 functions/src/service-account.json
+
+functions/src/ServiceAccount.ts
