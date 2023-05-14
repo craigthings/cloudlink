@@ -1,15 +1,14 @@
 import AllFunctions from "./AllFunctions";
-import * as FunctionsProxy from './FunctionsProxyBackend';
-import * as admin from 'firebase-admin';
+import CloudLink from '../../CloudLink';
 import serviceAccount from './ServiceAccount';
+import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
+import * as cors from 'cors';
+
+const corsHandler = cors({ origin: true });
 
 admin.initializeApp({
     credential: admin.credential.cert(Object(serviceAccount))
 });
 
-export const db = admin.firestore();
-
-const Functions = new AllFunctions(db);
-
-export const getUserProfileData = FunctionsProxy.createProxyFunction(Functions.getUserProfileData);
-export const updateUserProfileData = FunctionsProxy.createProxyFunction(Functions.updateUserProfileData);
+export const methodRequest = CloudLink.expose(AllFunctions, functions.https.onRequest, corsHandler);

@@ -8,6 +8,8 @@ type AsyncMethods<T extends object> = {
     handler: (req: any, res: any) => Promise<void>
   ) => void;
   
+  type CorsFunction = (req: any, res: any, next: () => void) => void;
+  
   export default class CloudLink {
     static wrap<T extends object>(endpoint: string): AsyncMethods<T> {
       const handler: ProxyHandler<AsyncMethods<T>> = {
@@ -36,24 +38,38 @@ type AsyncMethods<T extends object> = {
   
     static expose<T extends object>(
       api: new (...args: any[]) => T,
-      onRequest: OnRequestFunction
+      onRequest: OnRequestFunction,
+      cors?: CorsFunction
     ): void {
       let instance = new api();
       onRequest(async (req, res) => {
-        const { method, args } = req.body;
-        if (!method || !Array.isArray(args)) {
-          res.status(400).send("Invalid request body");
-          return;
-        }
-        if (method in instance) {
-          try {
-            const result = await instance[method](...args);
-            res.json(result);
-          } catch (error) {
-            res.status(500).send(error.message || "Server error");
+        const handleRequest = async () => {
+          const { method, args } = req.body;
+          if (!method || !Array.isArray(args)) {
+            res.status(400).send("Invalid request body. 'method' and 'args' are required fields.");
+            return;
           }
+          if (method in instance && typeof instance[method as keyof T] === 'function') {
+            try {
+              const func = instance[method as keyof T] as (...args: any[]) => Promise<any>;
+              const result = await func(...args);
+              res.json(result);
+            } catch (error) {
+              if (error instanceof Error) {
+                res.status(500).send(`Error executing method '${method}': ${error.message}`);
+              } else {
+                res.status(500).send(`Unknown error occurred while executing method '${method}'`);
+              }
+            }
+          } else {
+            res.status(400).send(`Invalid method name '${method}'. This method does not exist on the provided API.`);
+          }
+        };
+  
+        if (cors) {
+          cors(req, res, handleRequest);
         } else {
-          res.status(400).send("Invalid method name");
+          await handleRequest();
         }
       });
     }
