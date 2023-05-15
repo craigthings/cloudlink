@@ -40,9 +40,9 @@ type AsyncMethods<T extends object> = {
       api: new (...args: any[]) => T,
       onRequest: OnRequestFunction,
       cors?: CorsFunction
-    ): void {
+    ): any {
       let instance = new api();
-      onRequest(async (req, res) => {
+      return onRequest(async (req, res) => {
         const handleRequest = async () => {
           const { method, args } = req.body;
           if (!method || !Array.isArray(args)) {
@@ -65,7 +65,7 @@ type AsyncMethods<T extends object> = {
             res.status(400).send(`Invalid method name '${method}'. This method does not exist on the provided API.`);
           }
         };
-  
+    
         if (cors) {
           cors(req, res, handleRequest);
         } else {

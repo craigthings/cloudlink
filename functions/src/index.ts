@@ -1,9 +1,11 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import * as cors from 'cors';
-admin.initializeApp();
+import serviceAccount from './ServiceAccount';
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount as any),
+});
 
-// import serviceAccount from './ServiceAccount';
 import AllFunctions from "./Functions";
 import CloudLink from './CloudLink';
 

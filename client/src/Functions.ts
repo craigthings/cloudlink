@@ -8,7 +8,8 @@ const Functions = CloudLink.wrap<BackendFunctions>(baseUrl+"/methodRequest");
 
 async function init() {
   let user = await Functions.getUserProfileData("abc123");
-  console.log(user.name);
+  console.log(user.name, user.age);
+  Functions.updateUserProfileData("abc123", {name: "John Doe", age: 44});
 }
 
 init();
