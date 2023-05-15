@@ -1,5 +1,5 @@
 import type BackendFunctions from '../../functions/src/Functions';
-import CloudLink from "../../CloudLink";
+import CloudLink from "../../functions/src/CloudLink";
 import { db } from './FirebaseConfig';
 
 
