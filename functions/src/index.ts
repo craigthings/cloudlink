@@ -1,4 +1,4 @@
-import AllFunctions from "./AllFunctions";
+import AllFunctions from "./Functions";
 import CloudLink from '../../CloudLink';
 import serviceAccount from './ServiceAccount';
 import * as admin from 'firebase-admin';

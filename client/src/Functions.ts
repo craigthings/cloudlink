@@ -1,10 +1,10 @@
-import type AllFunctions from '../../functions/src/AllFunctions';
+import type BackendFunctions from '../../functions/src/Functions';
+import CloudLink from "../../CloudLink";
 import { db } from './FirebaseConfig';
 
-import CloudLink from "../../CloudLink";
 
 const baseUrl = 'http://localhost:5000/ca-cloudlink/us-central1';
-const Functions = CloudLink.wrap<AllFunctions>(baseUrl+"/methodRequest");
+const Functions = CloudLink.wrap<BackendFunctions>(baseUrl+"/methodRequest");
 
 async function init() {
   let user = await Functions.getUserProfileData("abc123");
