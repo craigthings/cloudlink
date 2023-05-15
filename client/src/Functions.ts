@@ -1,13 +1,19 @@
-import FunctionsProxyFrontend from './FunctionsProxyFrontend';
-import AllFunctions from '../../functions/src/AllFunctions';
+import type BackendFunctions from '../../functions/src/Functions';
+import CloudLink from "../../functions/src/CloudLink";
 import { db } from './FirebaseConfig';
 
+
 const baseUrl = 'http://localhost:5000/ca-cloudlink/us-central1';
-FunctionsProxyFrontend.setFunctionsUrl(baseUrl);
-const Functions = FunctionsProxyFrontend.proxy(new AllFunctions(db));
+const Functions = CloudLink.wrap<BackendFunctions>(baseUrl+"/methodRequest");
 
-Object(window)['AllFunctions'] = AllFunctions;
+async function init() {
+  let user = await Functions.getUserProfileData("abc123");
+  console.log(user.name, user.age);
+  Functions.updateUserProfileData("abc123", {name: "John Doe", age: 44});
+}
 
-Functions.getUserProfileData('abc123a');
+init();
+
+Object(window)['Functions'] = Functions;
 
 export default Functions;
