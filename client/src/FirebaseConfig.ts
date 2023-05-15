@@ -13,5 +13,14 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log('Firebase app is fully initialized and ready for database calls.');
+      // Make database calls here
+    } else {
+      console.log('User is not authenticated.');
+    }
+  });
+
 export const auth = firebase.auth();
 export const db = firebase.firestore();

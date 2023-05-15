@@ -10,6 +10,9 @@ class App extends React.Component<any,{count: number}>{
     this.state = { count: 0 }
     // @ts-ignore
     window['Funcs'] = Functions;
+    setTimeout(async () => {
+      console.log(await Functions.updateUserProfileData('abc123', {name: 'Bob', age: 30}));
+    }, 0);
   }
 
   render() {

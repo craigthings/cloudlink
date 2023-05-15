@@ -1,3 +1,4 @@
+
 export type UserData = {
   name: string;
   age: number;
@@ -15,8 +16,9 @@ class AllFunctions {
     return doc.data() as UserData;
   }
 
-  async updateUserProfileData(userID: string, userData: UserData): Promise<void> {
+  async updateUserProfileData(userID: string, userData: UserData) {
     await db.collection('users').doc(userID).set(userData);
+    return userData;
   }
 }
 
