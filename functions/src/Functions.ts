@@ -12,9 +12,8 @@ class AllFunctions {
     return doc.data() as UserData;
   }
 
-  async updateUserProfileData(userID: string, userData: UserData, test: undefined) {
+  async updateUserProfileData(userID: string, userData: UserData) {
     await db.collection('users').doc(userID).set(userData);
-    console.log(test);
     return userData;
   }
 }

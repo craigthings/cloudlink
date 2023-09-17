@@ -9,7 +9,6 @@ admin.initializeApp({
 import AllFunctions from "./Functions";
 import CloudLink from './CloudLink';
 
-
 const corsHandler = cors({ origin: true });
 
-export const methodRequest = CloudLink.expose(AllFunctions, functions.https.onRequest, corsHandler);
+export const methodRequest = CloudLink.expose(AllFunctions, functions.https.onRequest, corsHandler, admin.auth());
