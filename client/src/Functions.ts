@@ -1,7 +1,7 @@
 import type BackendFunctions from '../../functions/src/Functions';
 import CloudLink from "../../functions/src/CloudLink";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsJ3xYytgVsjIHmLeFfpXP0i1wSnKOD_A",
@@ -14,7 +14,22 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const baseUrl = 'http://localhost:5000/ca-cloudlink/us-central1';
+const auth = getAuth();
+signInWithPopup(auth, new GoogleAuthProvider())
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential?.accessToken;
+    const user = result.user;
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+
+const baseUrl = 'http://localhost:5001';
+// const baseUrl = 'http://localhost:5000/ca-cloudlink/us-central1';
 const Functions = CloudLink.wrap<BackendFunctions>(baseUrl+"/methodRequest", getAuth());
 
 async function init() {
