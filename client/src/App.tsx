@@ -2,7 +2,7 @@ import React from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Functions from './Functions'
+import Functions from './FirebaseFunctions'
 
 class App extends React.Component<any,{count: number}>{
   constructor(props: any) {
