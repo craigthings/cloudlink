@@ -11,7 +11,7 @@ const functions = CloudLink.wrap<Functions>(url, auth);
 
 export async function saveTestUserData() {
   let user = await functions.getUserProfileData("abc123");
-  console.log(user.name, user.age);
+  if(user) console.log(user.name, user.age);
   functions.updateUserProfileData("abc123", {name: "John Doe", age: 44});
 }
 

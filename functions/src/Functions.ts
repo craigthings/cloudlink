@@ -10,7 +10,7 @@ class AllFunctions {
   async getUserProfileData(userID: string) {
     console.log('getUserProfileData', userID);
     const doc = await db.collection('users').doc(userID).get();
-    return doc.data() as UserData;
+    return doc.data() as UserData | undefined;
   }
 
   async updateUserProfileData(userID: string, userData: UserData) {
