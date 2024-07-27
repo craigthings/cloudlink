@@ -2,12 +2,17 @@ import React from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Functions from './FirebaseFunctions'
+import Functions, { saveTestUserData, saveUserData } from './FirebaseFunctions'
+import authManager from './FirebaseAuthManager'
 
 class App extends React.Component<any,{count: number}>{
   constructor(props: any) {
     super(props)
-    this.state = { count: 0 }
+    // @ts-ignore
+    window['auth'] = authManager;
+
+    authManager.init();
+    
     // @ts-ignore
     window['Funcs'] = Functions;
     // setTimeout(async () => {
@@ -18,25 +23,22 @@ class App extends React.Component<any,{count: number}>{
   render() {
     return (
       <div className="App">
-        <div>
-          <a href="https://vitejs.dev" target="_blank">
-            <img src={viteLogo} className="logo" alt="Vite logo" />
-          </a>
-          <a href="https://reactjs.org" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
-        <h1>Vite + React</h1>
         <div className="card">
-          <button onClick={() => this.setState({count: this.state.count + 1})}>
-            count is {this.state.count}
+          <button onClick={() => {saveTestUserData()}}>
+            Test Set User 
           </button>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test HMR
-          </p>
+          <button onClick={() => {saveUserData()}}>
+            Save Current User
+          </button>
+          <button onClick={() => {authManager.login()}}>
+            Log in
+          </button>
+          <button onClick={() => {authManager.logout()}}>
+            Log out
+          </button>
         </div>
         <p className="read-the-docs">
-          Click on the Vite and React logos to learn more
+          Lorem Ipsum
         </p>
       </div>
     )

@@ -93,7 +93,7 @@ export default class CloudLink {
         const { token, method, args } = req.body;
 
         let validToken = true;
-        console.log('auth', auth, token)
+        // console.log('auth', auth, token)
         if (auth) {
           if(!token) {
             res.status(401).send("CloudLink: No token provided");

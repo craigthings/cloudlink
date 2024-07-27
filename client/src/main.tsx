@@ -5,7 +5,5 @@ import './index.css'
 import Functions from './FirebaseFunctions'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>,
 )

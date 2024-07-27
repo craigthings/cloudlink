@@ -8,11 +8,13 @@ export type UserData = {
 
 class AllFunctions {
   async getUserProfileData(userID: string) {
+    console.log('getUserProfileData', userID);
     const doc = await db.collection('users').doc(userID).get();
     return doc.data() as UserData;
   }
 
   async updateUserProfileData(userID: string, userData: UserData) {
+    console.log('updateUserProfileData', userID, userData);
     await db.collection('users').doc(userID).set(userData);
     return userData;
   }
