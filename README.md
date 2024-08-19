@@ -5,6 +5,20 @@
 
 CloudLink is a lightweight library that simplifies the interaction between client-side code and Firebase Cloud Functions. It provides an abstraction layer inspired by Comlink, allowing you to call server-side functions as if they were local asynchronous functions.
 
+## Make Remote Calls as Easy as Local Calls
+
+```ts
+// Client-side code
+let user = await functions.getUserProfileData("abc123");
+// user. <--- IntelliSense support for user object
+
+// Server-side code
+async function getUserProfileData(userID: string) {
+    const doc = await db.collection('users').doc(userID).get();
+    return doc.data() as { name: string, age: number } | undefined;
+}
+```
+
 ## Key Features
 
 1. **Simplified Function Calls**: Simplifies remote function calls. Instead of manually constructing HTTP requests, you can call server functions as if they were local async functions.
@@ -26,10 +40,7 @@ import CloudLink from "./CloudLink";
 import type BackendFunctions from '../../functions/src/Functions';
 import { auth } from './FirebaseConfig';
 
-const baseUrl = 'http://127.0.0.1:5001/ca-cloudlink/us-central1/';
-const baseMethod = 'methodRequest';
-const url = baseUrl + baseMethod;
-
+const url = 'http://127.0.0.1:5001/ca-cloudlink/us-central1/methodRequest';
 const functions = CloudLink.wrap<BackendFunctions>(url, auth);
 ```
 
@@ -84,5 +95,3 @@ class BackendFunctions {
 
 export default BackendFunctions;
 ```
-
-
