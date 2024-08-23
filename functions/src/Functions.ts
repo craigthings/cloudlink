@@ -6,7 +6,7 @@ export type UserData = {
   age: number;
 };
 
-class AllFunctions {
+class Functions {
   async getUserProfileData(userID: string) {
     console.log('getUserProfileData', userID);
     const doc = await db.collection('users').doc(userID).get();
@@ -20,4 +20,4 @@ class AllFunctions {
   }
 }
 
-export default AllFunctions;
+export default Functions;

@@ -1,0 +1,21 @@
+{
+    "name": "cloudlink",
+    "version": "1.0.0",
+    "description": "A lightweight library for simplifying client-server interactions with Firebase Cloud Functions",
+    "type": "module",
+    "main": "dist/CloudLink.js",
+    "types": "dist/CloudLink.d.ts",
+    "scripts": {
+      "build": "tsc",
+      "prepublishOnly": "npm run build"
+    },
+    "keywords": ["firebase", "cloud-functions", "typescript"],
+    "author": "Your Name",
+    "license": "MIT",
+    "devDependencies": {
+      "typescript": "^4.9.0"
+    },
+    "peerDependencies": {
+      "firebase": "^9.0.0"
+    }
+  }
