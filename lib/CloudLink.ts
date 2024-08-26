@@ -137,7 +137,20 @@ export default class CloudLink {
         if (method in instance && typeof instance[method as keyof T] === "function") {
           try {
             const func = instance[method as keyof T] as any;
-            const result = await func(...args);
+            const returnValue = func(...args);
+
+            if (!(returnValue instanceof Promise)) {
+              console.error(`CloudLink: Method '${method}' does not return a Promise. All API methods should be async.`);
+              res.status(500).json({
+                error: "Internal Server Error",
+                message: `Method '${method}' is not properly implemented as an async function.`,
+                method,
+                args
+              });
+              return;
+            }
+
+            const result = await returnValue;
 
             // Allow null or undefined to be returned
             if (result === undefined || result === null) {
