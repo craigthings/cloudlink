@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*": ["../lib/*"]
+    },
     "module": "commonjs",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -10,6 +14,7 @@
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src",
+    "../lib"
   ]
 }

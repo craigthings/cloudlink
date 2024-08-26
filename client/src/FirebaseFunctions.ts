@@ -1,5 +1,5 @@
 import type Functions from '../../functions/src/Functions';
-import CloudLink from "../../functions/src/CloudLink";
+import CloudLink from "@lib/CloudLink";
 import authManager from './FirebaseAuthManager';
 import { auth } from './FirebaseConfig';
 

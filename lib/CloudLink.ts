@@ -136,7 +136,7 @@ export default class CloudLink {
 
         if (method in instance && typeof instance[method as keyof T] === "function") {
           try {
-            const func = instance[method as keyof T] as (...args: any[]) => Promise<any>;
+            const func = instance[method as keyof T] as any;
             const result = await func(...args);
 
             // Allow null or undefined to be returned

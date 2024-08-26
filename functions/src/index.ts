@@ -7,7 +7,7 @@ admin.initializeApp({
 });
 
 import Functions from "./Functions";
-import CloudLink from './CloudLink';
+import CloudLink from '@lib/CloudLink';
 
 const corsHandler = cors({ origin: true });
 
