@@ -95,6 +95,17 @@ export default class CloudLink {
     auth?: ServerAuth
   ): any {
     let instance = new api();
+
+    // Check that all exposed methods are async.
+    Object.getOwnPropertyNames(Object.getPrototypeOf(instance)).forEach((method) => {
+      if (typeof instance[method as keyof T] === "function" && method !== "constructor") {
+        const func = instance[method as keyof T] as any;
+        if (!func.constructor.name.includes("AsyncFunction")) {
+          console.error(`CloudLink: Method '${method}' is not an async function. All API methods should be async.`);
+        }
+      }
+    });
+
     return onRequest(async (req, res) => {
       const handleRequest = async () => {
         const { token, method, args } = req.body;
